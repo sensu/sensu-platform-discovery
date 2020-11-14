@@ -3,10 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/sensu-community/sensu-plugin-sdk/sensu"
+	corev2 "github.com/sensu/sensu-go/api/core/v2"
 	"github.com/sensu/sensu-go/system"
 )
 
@@ -42,25 +42,26 @@ func main() {
 	check.Execute()
 }
 
-func checkArgs(event *types.Event) (int, error) {
-	if len(plugin.Example) == 0 {
-		return sensu.CheckStateWarning, fmt.Errorf("--example or CHECK_EXAMPLE environment variable is required")
-	}
+func checkArgs(event *corev2.Event) (int, error) {
 	return sensu.CheckStateOK, nil
 }
 
 func platformSubs() (string, error) {
 	subs := ""
 
-	infoCtx, cancel := context.WithTimeout(ctx, time.Duration(10)*time.Second)
+	infoCtx, cancel := context.WithTimeout(context.Background(), time.Duration(10)*time.Second)
+	defer cancel()
 
 	info, err := system.Info()
 	if err != nil {
-		return nil, err
+		return subs, err
 	}
 
 	if plugin.GetCloudProvider {
-		subs = subs + system.GetCloudProvider(infoCtx) + "\n"
+		cloud := system.GetCloudProvider(infoCtx)
+		if cloud != "" {
+			subs = subs + cloud + "\n"
+		}
 	}
 
 	subs = subs + fmt.Sprintf("%s\n%s\n%s\n", info.OS, info.Platform, info.PlatformFamily)
@@ -68,7 +69,14 @@ func platformSubs() (string, error) {
 	return subs, nil
 }
 
-func executeCheck(event *types.Event) (int, error) {
-	log.Println("executing check with --example", plugin.Example)
-	return sensu.CheckStateOK, nil
+func executeCheck(event *corev2.Event) (int, error) {
+	subs, err := platformSubs()
+
+	fmt.Print(subs)
+
+	if err != nil {
+		return sensu.CheckStateWarning, err
+	}
+
+	return sensu.CheckStateOK, err
 }
