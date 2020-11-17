@@ -274,6 +274,7 @@ github.com/sensu/sensu-go/types v0.3.0 h1:nVplWvduq9ArIu2rz3jMrzdVBFAlkm6T9l45Uy
 github.com/sensu/sensu-go/types v0.3.0/go.mod h1:TyeO3h/82XE1KppZRFg+jKB4QYwY2hE5hbCzjnnGdRo=
 github.com/sensu/sensu-licensing v0.1.2 h1:EEZxvbj/pmCCfD4ePAzs9mb6k6IPRDbUJcwAOfSvuUc=
 github.com/sensu/sensu-licensing v0.1.2/go.mod h1:Xfs4do2c3U+VvuNCjthUH7QJOZ9o6NfbQSb7rrvSXGc=
+github.com/shirou/gopsutil v0.0.0-20190901111213-e4ec7b275ada h1:WokF3GuxBeL+n4Lk4Fa8v9mbdjlrl7bHuneF4N1bk2I=
 github.com/shirou/gopsutil v0.0.0-20190901111213-e4ec7b275ada/go.mod h1:WWnYX4lzhCH5h/3YBfyVA3VbLYjlMZZAQcW9ojMexNc=
 github.com/shirou/gopsutil v2.20.9+incompatible h1:msXs2frUV+O/JLva9EDLpuJ84PrFsdCTCQex8PUdtkQ=
 github.com/shirou/gopsutil v2.20.9+incompatible/go.mod h1:5b4v6he4MtMOwMlS0TUMTu2PcXUg8+E1lC7eC3UO/RA=
