@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/sensu-community/sensu-plugin-sdk/sensu"
@@ -46,8 +47,8 @@ func checkArgs(event *corev2.Event) (int, error) {
 	return sensu.CheckStateOK, nil
 }
 
-func platformSubs() (string, error) {
-	subs := ""
+func platformSubs() ([]string, error) {
+	subs := []string{}
 
 	infoCtx, cancel := context.WithTimeout(context.Background(), time.Duration(10)*time.Second)
 	defer cancel()
@@ -60,11 +61,15 @@ func platformSubs() (string, error) {
 	if plugin.GetCloudProvider {
 		cloud := system.GetCloudProvider(infoCtx)
 		if cloud != "" {
-			subs = subs + cloud + "\n"
+			subs = append(subs, cloud)
 		}
 	}
 
-	subs = subs + fmt.Sprintf("%s\n%s\n%s\n", info.OS, info.Platform, info.PlatformFamily)
+	subs = append(subs, []string{info.OS, info.Platform}...)
+
+	if info.PlatformFamily != info.Platform {
+		subs = append(subs, info.PlatformFamily)
+	}
 
 	return subs, nil
 }
@@ -72,7 +77,7 @@ func platformSubs() (string, error) {
 func executeCheck(event *corev2.Event) (int, error) {
 	subs, err := platformSubs()
 
-	fmt.Print(subs)
+	fmt.Print(strings.Join(subs, "\n") + "\n")
 
 	if err != nil {
 		return sensu.CheckStateWarning, err
