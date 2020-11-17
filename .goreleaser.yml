@@ -8,6 +8,7 @@ builds:
     # Set the binary output location to bin/ so archive will comply with Sensu Go Asset structure
     binary: bin/{{ .ProjectName }}
     goos:
+      - darwin
       - linux
       - windows
     goarch:
@@ -20,6 +21,7 @@ builds:
       - 6
       - 7
     targets:
+      - darwin_amd64
       - linux_386
       - linux_amd64
       - linux_arm_5
