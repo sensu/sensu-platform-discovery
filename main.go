@@ -77,7 +77,7 @@ func platformSubs() ([]string, error) {
 func executeCheck(event *corev2.Event) (int, error) {
 	subs, err := platformSubs()
 
-	fmt.Print(strings.Join(subs, "\n") + "\n")
+	fmt.Println(strings.Join(subs, "\n"))
 
 	if err != nil {
 		return sensu.CheckStateWarning, err
