@@ -2,38 +2,10 @@
 ![Go Test](https://github.com/sensu/sensu-platform-discovery/workflows/Go%20Test/badge.svg)
 ![goreleaser](https://github.com/sensu/sensu-platform-discovery/workflows/goreleaser/badge.svg)
 
-# Check Plugin Template
-
-## Overview
-check-plugin-template is a template repository which wraps the [Sensu Plugin SDK][2].
-To use this project as a template, click the "Use this template" button from the main project page.
-Once the repository is created from this template, you can use the [Sensu Plugin Tool][9] to
-populate the templated fields with the proper values.
-
-## Functionality
-
-After successfully creating a project from this template, update the `Config` struct with any
-configuration options for the plugin, map those values as plugin options in the variable `options`,
-and customize the `checkArgs` and `executeCheck` functions in [main.go][7].
-
-When writing or updating a plugin's README from this template, review the Sensu Community
-[plugin README style guide][3] for content suggestions and guidance. Remove everything
-prior to `# sensu-platform-discovery` from the generated README file, and add additional context about the
-plugin per the style guide.
-
-## Releases with Github Actions
-
-To release a version of your project, simply tag the target sha with a semver release without a `v`
-prefix (ex. `1.0.0`). This will trigger the [GitHub action][5] workflow to [build and release][4]
-the plugin with goreleaser. Register the asset with [Bonsai][8] to share it with the community!
-
-***
-
-# sensu-platform-discovery
+# Sensu Platform Discovery
 
 ## Table of Contents
 - [Overview](#overview)
-- [Files](#files)
 - [Usage examples](#usage-examples)
 - [Configuration](#configuration)
   - [Asset registration](#asset-registration)
@@ -44,11 +16,44 @@ the plugin with goreleaser. Register the asset with [Bonsai][8] to share it with
 
 ## Overview
 
-The sensu-platform-discovery is a [Sensu Check][6] that ...
-
-## Files
+Discover system platform information and output a list of agent
+subscriptions. This plugin can be used in combination with the [Sensu
+Entity Manager handler](https://github.com/sensu/sensu-entity-manager)
+to automate Sensu Go agent subscription management.
 
 ## Usage examples
+
+```
+$ sensu-platform-discovery -h
+Discover system platform information and output a list of agent subscriptions.
+
+Usage:
+  sensu-platform-discovery [flags]
+  sensu-platform-discovery [command]
+
+Available Commands:
+  help        Help about any command
+  version     Print the version number of this plugin
+
+Flags:
+  -c, --get-cloud-provider   Determine the cloud provider and include it in subscriptions.
+  -h, --help                 help for sensu-platform-discovery
+
+Use "sensu-platform-discovery [command] --help" for more information about a command.
+```
+
+```
+$ sensu-platform-discovery
+linux
+debian
+```
+
+```
+$ sensu-platform-discovery --get-cloud-provider
+aws
+linux
+debian
+```
 
 ## Configuration
 
@@ -74,11 +79,12 @@ metadata:
   name: sensu-platform-discovery
   namespace: default
 spec:
-  command: sensu-platform-discovery --example example_arg
+  command: sensu-platform-discovery --get-cloud-provider
   subscriptions:
-  - system
+  - discovery
   runtime_assets:
   - sensu/sensu-platform-discovery
+  interval: 60
 ```
 
 ## Installation from source
