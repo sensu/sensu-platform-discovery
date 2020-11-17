@@ -67,7 +67,7 @@ following command to add the asset:
 sensuctl asset add sensu/sensu-platform-discovery
 ```
 
-If you're using an earlier version of sensuctl, you can find the asset on the [Bonsai Asset Index][https://bonsai.sensu.io/assets/sensu/sensu-platform-discovery].
+If you're using an earlier version of sensuctl, you can find the asset on the [Bonsai Asset Index](https://bonsai.sensu.io/assets/sensu/sensu-platform-discovery).
 
 ### Check definition
 
